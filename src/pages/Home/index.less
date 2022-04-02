@@ -1,0 +1,35 @@
+.site-layout-content {
+  display: flex;
+  height: calc(~"100vh - 64px");
+  background: #fff;
+  margin: 5px;
+
+  .content-section {
+    width: 300px;
+    padding: 10px 10px;
+    border: 1px solid #efe8e8;
+
+    .card-me {
+      width: 100%;
+    }
+  }
+
+  .tabs-params {
+    width: 320px;
+  }
+
+  .content-main {
+    min-height: calc(~"100vh - 134px");
+    flex: 1;
+    padding: 10px;
+    border: 1px solid #efe8e8;
+    border-left: 0px;
+    border-right: 0px;
+    overflow: scroll;
+
+    .main-item {
+      border: 3px dotted #efe8e8;
+      padding: 10px 5px;
+    }
+  }
+}
