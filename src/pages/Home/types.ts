@@ -17,3 +17,21 @@ export interface CardListType {
   icon: HTMLElement;
   buttons: ButtonsType[];
 }
+
+export interface ComponentType {
+  id: string;
+  field: string;
+  fieldName: string;
+  componentId: string;
+  top: number;
+  ref: any;
+}
+
+export interface FormChildPropType {
+  componentList: ComponentType[];
+  id: string;
+  item: HTMLDivElement;
+  setComponentList: Function;
+  fieldName: string;
+  field: string;
+}

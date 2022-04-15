@@ -13,7 +13,7 @@ import {
   Switch,
 } from "antd";
 import { useState, useEffect, MouseEvent, DragEvent, useRef } from "react";
-import { MenuSelectEvent, CardListType } from "./types";
+import { MenuSelectEvent, ComponentType } from "./types";
 import { CardListConfig, String2Element } from "./config";
 import FormChild from "../../components/FormChild";
 import { throttle } from "../../utils/index";
@@ -24,7 +24,8 @@ const { TabPane } = Tabs;
 
 function Home() {
   const [checked, setChecked] = useState(true);
-  const [componentList, setComponentList] = useState<string[]>([]);
+  const [filedName, setFiledName] = useState(0);
+  const [componentList, setComponentList] = useState<ComponentType[]>([]);
 
   const handleMenuSelect = (e: MenuSelectEvent) => {
     console.log(e.key);
@@ -46,11 +47,41 @@ function Home() {
     e.dataTransfer.setData("id", id);
   };
   const handleDrop = (e: DragEvent) => {
-    let temp = [];
-    temp = [...componentList, e.dataTransfer.getData("id")];
+    // console.log("Drop", e.clientX, e.clientY);
+    // const listLength = componentList.length;
+    // let ans: ComponentType = { id: "", componentId: "", top: 0 };
+    // let difference = Math.abs(componentList[listLength - 1].top - e.clientY);
+    // let index;
+    // for (let i = 0; i < listLength; i++) {
+    //   const temp = Math.abs(componentList[i].top - e.clientY);
+    //   if (temp <= difference) {
+    //     difference = temp;
+    //     ans = componentList[i];
+    //     index = i;
+    //   }
+    // }
+
+    // console.log(difference, index);
+    const temp = [
+      ...componentList,
+      {
+        id: Date.now() + "1109",
+        field: 'field' + filedName,
+        fieldName: '表单名称'+ filedName,
+        componentId: e.dataTransfer.getData("id"),
+        top: e.clientY,
+        ref: null,
+      },
+    ];
+    temp.sort((a,b)=>a.top-b.top);
+    setFiledName(filedName+1);
     setComponentList(temp);
   };
 
+  // const handleDragOver = throttle((e: MouseEvent) => {
+  //   console.log(e);
+  //   e.preventDefault();
+  // }, 500);
   const handleDragOver = (e: MouseEvent) => {
     e.preventDefault();
   };
@@ -111,11 +142,13 @@ function Home() {
             onDragOver={handleDragOver}
           >
             <Form className="main-form" name="basic" labelCol={{ span: 5 }}>
-              {componentList.map((e, i) => (
+              {componentList.map((e) => (
                 <FormChild
-                  key={i}
-                  index={i}
-                  item={String2Element[e]}
+                  key={e.id}
+                  id={e.id}
+                  field={e.field}
+                  fieldName={e.fieldName}
+                  item={String2Element[e.componentId]}
                   componentList={componentList}
                   setComponentList={setComponentList}
                 />
